@@ -1,28 +1,38 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthModule } from './modules/auth';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
+import Home from './pages/Home';
+import Navbar from './components/Navbar/Navbar';
+import Demo from './pages/Demo';
+import Footer from './components/Footer/Footer';
+import Services from './pages/Services';
+import Store from './pages/Store';
+import Clients from './pages/Clients';
+import Contact from './pages/Contact';
+import Auth from './pages/Auth';
+import { ThemeProvider } from '@mui/material/styles';
+import { theme } from './theme';
 
 function App() {
   return (
-    <Router>
-      <div className="App">
+    <AuthProvider>
+      <ThemeProvider theme={theme}>
+      <Router>
+      <div className="main-content" style={{ width: '100%', minHeight: '100vh' }}>
+        <Navbar />
         <Routes>
-          {/* Ruta base redirige a /auth/login */}
-          <Route path="/" element={<Navigate to="/auth/login" replace />} />
-          
-          {/* Rutas de autenticación */}
-          <Route path="/auth/*" element={<AuthModule />} />
-          
-          {/* Ruta para páginas no encontradas */}
-          <Route path="*" element={
-            <div style={{ padding: '20px' }}>
-              <h2>Página no encontrada</h2>
-              <p>Serás redirigido al login...</p>
-              <Navigate to="/auth/login" replace />
-            </div>
-          } />
+        <Route path="/" element={<Home />} />
+          <Route path="/demo" element={<Demo />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/store" element={<Store />} />
+          <Route path="/clients" element={<Clients />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/auth" element={<Auth />} />
         </Routes>
-      </div>
-    </Router>
+        <Footer />
+        </div>
+      </Router>
+      </ThemeProvider>
+    </AuthProvider>
   );
 }
 
